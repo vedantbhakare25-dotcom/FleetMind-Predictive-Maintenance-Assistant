@@ -1,0 +1,2 @@
+-- Complete PostgreSQL schema for FleetMind predictive maintenance platform
+-- Tables: profiles, plants, machines, sensor_readings, predictions, alerts, maintenance_logs

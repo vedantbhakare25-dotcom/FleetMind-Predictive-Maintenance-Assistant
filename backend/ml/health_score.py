@@ -1,0 +1,1 @@
+# Calculates health score 0–100 from failure probability and normalized RUL using weighted formula (0.6 failure component + 0.4 RUL component), maps score to alert level (NORMAL, LOW, MEDIUM, HIGH, CRITICAL)

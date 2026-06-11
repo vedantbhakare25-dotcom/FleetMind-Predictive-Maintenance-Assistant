@@ -1,0 +1,14 @@
+venv/
+node_modules/
+.env
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.joblib
+*.pkl
+ml/data/raw/
+ml/data/processed/
+.pytest_cache/
+dist/
+build/
+.vscode/

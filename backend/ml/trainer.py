@@ -1,0 +1,1 @@
+# Offline training script: trains XGBoost binary classifier for failure prediction with SMOTE and class weights, trains five XGBoost binary classifiers for failure modes (TWF, HDF, PWF, OSF), trains XGBoost regressor for RUL on CMAPSS FD001, saves all models as joblib files

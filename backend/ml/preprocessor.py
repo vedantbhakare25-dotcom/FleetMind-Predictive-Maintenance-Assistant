@@ -1,0 +1,1 @@
+# Feature engineering for AI4I dataset (temp_diff, power, tool_wear_torque, quality_encoded) and CMAPSS dataset (rolling mean/std over 30 cycles, drop zero-variance sensors, clip RUL at 125), fits and transforms using saved scaler

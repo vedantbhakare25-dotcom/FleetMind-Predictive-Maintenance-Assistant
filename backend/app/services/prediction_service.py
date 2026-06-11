@@ -1,0 +1,1 @@
+# Orchestrates the full ML prediction pipeline: fetch sensor readings, call preprocessor, call predictor, call explainer, calculate health score, generate root cause, store prediction, trigger alert if threshold crossed
