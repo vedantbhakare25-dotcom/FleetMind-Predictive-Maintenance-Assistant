@@ -1,0 +1,30 @@
+{
+  "failure_prediction": {
+    "threshold": 0.89,
+    "description": "Optimal threshold balancing recall and precision",
+    "target_recall": 0.8
+  },
+  "failure_modes": {
+    "TWF": 0.5,
+    "HDF": 0.5,
+    "PWF": 0.5,
+    "OSF": 0.5
+  },
+  "feature_columns": [
+    "air_temperature",
+    "process_temperature",
+    "rotational_speed",
+    "torque",
+    "tool_wear",
+    "temp_diff",
+    "power",
+    "tool_wear_torque",
+    "quality_encoded"
+  ],
+  "failure_mode_columns": [
+    "TWF",
+    "HDF",
+    "PWF",
+    "OSF"
+  ]
+}

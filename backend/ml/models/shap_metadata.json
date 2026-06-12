@@ -1,0 +1,14 @@
+{
+  "expected_value": 3.3551101684570312,
+  "feature_columns": [
+    "air_temperature",
+    "process_temperature",
+    "rotational_speed",
+    "torque",
+    "tool_wear",
+    "temp_diff",
+    "power",
+    "tool_wear_torque",
+    "quality_encoded"
+  ]
+}
