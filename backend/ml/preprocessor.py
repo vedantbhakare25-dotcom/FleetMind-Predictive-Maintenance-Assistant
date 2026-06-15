@@ -1,6 +1,13 @@
 # Preprocessing pipeline for FleetMind ML inference
 # Handles feature engineering and scaling for AI4I dataset
-
+'''
+  preprocessor.py  → cleans sensor data
+  predictor.py     → predicts failure
+  explainer.py     → explains why
+  health_score.py  → calculates score
+  root_cause.py    → generates text
+  
+  '''
 import numpy as np
 import pandas as pd
 import joblib
