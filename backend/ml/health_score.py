@@ -5,7 +5,7 @@
 from dataclasses import dataclass
 
 
-# ── Alert Level Thresholds ─────────────────────────────────────────────────────
+#Alert Level Thresholds
 # These match the values in .env / config.py
 # Defined here as module constants for use without FastAPI context (notebooks, tests)
 
@@ -59,12 +59,12 @@ def calculate_health_score(
         HealthScoreResult with score, level, and recommendation
     """
 
-    # ── Validate inputs ────────────────────────────────────────────────────────
+    # Validate inputs
     failure_prob = max(0.0, min(1.0, float(failure_prob)))
     rul_cycles = max(0, min(rul_max, int(rul_cycles)))
 
 
-    # ── Component calculations ─────────────────────────────────────────────────
+    # Component calculations
 
     # Failure component: inverse of failure probability, scaled to 100
     # failure_prob=0.0 → failure_component=100 (perfectly healthy)
@@ -77,7 +77,7 @@ def calculate_health_score(
     rul_component = (rul_cycles / rul_max) * 100
 
 
-    # ── Weighted combination ───────────────────────────────────────────────────
+    #Weighted combination
     raw_score = (
         FAILURE_PROB_WEIGHT * failure_component +
         RUL_WEIGHT * rul_component
@@ -87,11 +87,11 @@ def calculate_health_score(
     score = round(raw_score, 1)
 
 
-    # ── Map score to alert level ───────────────────────────────────────────────
+    #Map score to alert level
     level = _score_to_level(score)
 
 
-    # ── Generate recommendation ────────────────────────────────────────────────
+    #Generate recommendation
     recommendation = _level_to_recommendation(level, rul_cycles)
 
 
