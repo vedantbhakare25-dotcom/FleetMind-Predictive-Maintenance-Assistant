@@ -1,0 +1,157 @@
+Step 1: Browser sends HTTP request
+        POST http://localhost:8000/api/predictions/run/{machine_id}
+        Headers: { Authorization: "Bearer eyJhbGci..." }
+        
+Step 2: FastAPI receives request
+        CORS middleware checks: is this browser allowed to call us?
+        
+Step 3: Router function fires
+        predictions.router.run_prediction() is called
+        
+Step 4: Authentication middleware runs
+        Depends(get_current_user) extracts JWT from header
+        Sends JWT to Supabase to verify
+        Fetches Ramesh's profile: {id, role: 'engineer', plant_id: 'xxx'}
+        
+Step 5: Service layer runs
+        PredictionService.run_full_pipeline() is called
+        
+Step 6: Database check
+        "Does machine_id belong to Ramesh's plant?"
+        If no → return 403 Forbidden
+        If yes → continue
+        
+Step 7: Fetch sensor data
+        Query Supabase sensor_readings for last 30 readings
+        
+Step 8: ML pipeline runs
+        preprocessor.transform(readings)
+        predictor.predict_failure(features)
+        predictor.predict_failure_modes(features)
+        predictor.predict_rul(tool_wear, failure_prob)
+        explainer.explain(features)
+        health_score.calculate(failure_prob, rul)
+        root_cause.generate(shap, modes, raw_features)
+        
+Step 9: Store prediction
+        INSERT into Supabase predictions table
+        
+Step 10: Create alert if needed
+         If health_score < 40: INSERT into alerts table
+         
+Step 11: Return response
+         JSON with everything: prob, health, SHAP, RUL, cause
+         
+Step 12: Browser receives JSON
+         React renders: gauge, SHAP bars, alert banner
+
+=================================================================================================================================
+
+=================================================================================================================================
+
+The Three Layers Explained Simply
+---------------------------------
+---------------------------------
+
+Layer 1: Routers (The Reception Desk)
+---------------------------------
+
+A router is just a file that says: "these are the URLs that exist and what HTTP method they accept."
+
+python# This is ALL a router does:
+
+@router.post("/run/{machine_id}")
+async def run_prediction(machine_id: UUID, user = Depends(get_current_user)):
+    return await PredictionService.run_full_pipeline(machine_id, user)
+
+Three lines. Receive request, check auth, call service, return result. 
+That's it. No ML logic. No database queries. Just routing.
+
+
+Layer 2: Services (The Kitchen)
+---------------------------------
+
+Services contain the actual business logic. They don't know about HTTP at all. They just take data in, do work, return data out.
+python# Service does the real work:
+
+class PredictionService:
+    async def run_full_pipeline(machine_id, user):
+        readings = fetch_from_supabase(machine_id)
+        features = preprocessor.transform(readings)
+        prediction = predictor.predict_failure(features)
+        # ... all 12 steps
+        return result
+
+
+Layer 3: Pydantic Models (The Menu)
+---------------------------------
+
+Pydantic models define exactly what data looks like coming in and going out. They're contracts.
+python
+class SensorReadingCreate(BaseModel):
+    air_temperature: float
+    process_temperature: float
+    rotational_speed: float
+    torque: float
+    tool_wear: float
+
+# FastAPI automatically validates this
+# If someone sends air_temperature="hello" → automatic 422 error
+# You never write validation code manually
+
+What Files We're Writing in Step 6
+---------------------------------
+---------------------------------
+app/core/security.py
+→ The bouncer. Validates JWT tokens.
+→ If token is valid: returns user data
+→ If token is invalid: returns 401
+
+app/core/dependencies.py  
+→ Reusable auth functions FastAPI injects into routes
+→ get_current_user() — used on every protected route
+→ require_role('admin') — used on admin-only routes
+
+app/models/sensor.py
+app/models/prediction.py
+app/models/alert.py
+app/models/machine.py
+→ Pydantic schemas — define request and response shapes
+→ FastAPI uses these for automatic validation and docs
+
+main.py (update)
+→ Load ML models once at server startup
+→ Store them in app.state so every request can access them
+
+app/db/supabase_client.py (update)
+→ Already done in Step 1, just verify it works
+
+app/services/sensor_service.py
+→ Insert new sensor readings into Supabase
+→ Fetch last N readings for a machine
+
+app/services/prediction_service.py  
+→ The most important service
+→ Orchestrates all 12 steps of the prediction pipeline
+
+app/services/alert_service.py
+→ Create alerts when health score crosses threshold
+→ Acknowledge and resolve alerts
+
+app/services/machine_service.py
+→ Fetch machines, verify plant ownership
+
+app/routers/sensors.py
+→ POST /api/sensors/readings
+
+app/routers/predictions.py
+→ POST /api/predictions/run/{machine_id}
+→ GET  /api/predictions/{machine_id}/latest
+
+app/routers/machines.py
+→ GET /api/machines
+→ GET /api/machines/{id}
+
+app/routers/alerts.py
+→ GET  /api/alerts
+→ PATCH /api/alerts/{id}/acknowledge

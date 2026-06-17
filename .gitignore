@@ -12,3 +12,4 @@ ml/data/processed/
 dist/
 build/
 .vscode/
+machineid/
