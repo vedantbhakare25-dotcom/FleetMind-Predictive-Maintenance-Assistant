@@ -25,7 +25,7 @@ class FleetMindPredictor:
         self._load_failure_model()
         self._load_failure_mode_models()
         self._load_threshold_config()
-        print("✅ All models loaded successfully")
+        print("  All models loaded successfully")
 
 
     def _load_failure_model(self):
@@ -36,7 +36,7 @@ class FleetMindPredictor:
                 "Run 02_ai4i_training.ipynb first."
             )
         self.failure_model = joblib.load(path)
-        print("  ✅ failure_classifier loaded")
+        print("    failure_classifier loaded")
 
 
     def _load_failure_mode_models(self):
@@ -46,7 +46,7 @@ class FleetMindPredictor:
             if not path.exists():
                 raise FileNotFoundError(f"failure_mode_{mode}.joblib not found.")
             self.mode_models[mode] = joblib.load(path)
-            print(f"  ✅ failure_mode_{mode} loaded")
+            print(f"    failure_mode_{mode} loaded")
 
 
     def _load_threshold_config(self):
@@ -62,7 +62,7 @@ class FleetMindPredictor:
 
         self.failure_threshold = config['failure_prediction']['threshold']
         self.mode_thresholds = config['failure_modes']
-        print(f"  ✅ Thresholds loaded — failure threshold: {self.failure_threshold}")
+        print(f"    Thresholds loaded — failure threshold: {self.failure_threshold}")
 
 
     def predict_failure(self, scaled_features: pd.DataFrame) -> dict:

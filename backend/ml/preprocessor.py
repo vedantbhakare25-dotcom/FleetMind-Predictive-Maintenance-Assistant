@@ -67,7 +67,7 @@ class AI4IPreprocessor:
 
         self.scaler = joblib.load(scaler_path)
         self.feature_cols = FEATURE_COLS
-        print(f"✅ AI4IPreprocessor loaded scaler from {scaler_path}")
+        print(f"  AI4IPreprocessor loaded scaler from {scaler_path}")
 
 
     def transform(self, raw_data: dict, quality_variant: str = 'M') -> pd.DataFrame:
