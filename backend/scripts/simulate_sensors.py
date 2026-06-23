@@ -65,7 +65,7 @@ def get_auth_token() -> str:
         raise Exception(f"Login failed: {response.text}")
 
     token = response.json()["access_token"]
-    print("✅ Authenticated successfully\n")
+    print("   Authenticated successfully\n")
     return token
 
 
@@ -78,7 +78,7 @@ def load_ai4i_rows() -> pd.DataFrame:
     """
     df = pd.read_csv(AI4I_PATH)
 
-    print(f"✅ Loaded {len(df)} rows from AI4I dataset")
+    print(f"   Loaded {len(df)} rows from AI4I dataset")
     print(f"   Failure rows available: {df['Machine failure'].sum()}")
     print(f"   Normal rows available : {(df['Machine failure']==0).sum()}\n")
 
@@ -201,7 +201,7 @@ def run_simulation(mode: str = "sequential", num_readings: int = 20):
         reading = row_to_reading(row, machine_id)
         is_failure_row = row["Machine failure"] == 1
 
-        status_tag = "⚠️  FAILURE-LIKE" if is_failure_row else "✅ normal"
+        status_tag = "⚠️  FAILURE-LIKE" if is_failure_row else "   normal"
 
         print(f"\n[{i+1}/{num_readings}] Sending to: {machine_name}  ({status_tag})")
         print(f"   temp={reading['process_temperature']:.1f}K  "
@@ -212,7 +212,7 @@ def run_simulation(mode: str = "sequential", num_readings: int = 20):
         result = post_reading(reading, token)
 
         if result:
-            print(f"   ✅ Reading stored")
+            print(f"      Reading stored")
 
             # Trigger a prediction right away to see live health updates
             prediction = trigger_prediction(machine_id, token)
