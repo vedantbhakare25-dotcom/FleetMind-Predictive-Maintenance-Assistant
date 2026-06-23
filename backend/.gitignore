@@ -7,3 +7,7 @@ ml/models/*.joblib
 ml/models/*.pkl
 ml/data/raw/
 ml/data/processed/
+get_token.py
+test_ml
+.env.example
+requirements.txt
