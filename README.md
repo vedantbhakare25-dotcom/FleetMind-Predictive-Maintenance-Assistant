@@ -24,7 +24,7 @@ FleetMind is a full-stack AI platform that monitors industrial machines in real 
 
 ## Live Demo
 
-> **[→ Open FleetMind Dashboard](YOUR_VERCEL_URL_HERE)**
+> **[→ Open FleetMind Dashboard](https://fleet-mind-predictive-maintenance-a.vercel.app/)**
 >
 > Login: `ramesh@fleetmind.dev` / `FleetMind@123`
 
@@ -32,7 +32,7 @@ What to try:
 1. Log in and see the machine fleet health dashboard
 2. Click any machine card to see the detailed prediction — health score, failure probability, SHAP explanation, RUL estimate, and root cause text
 3. Visit the Alert Center (bell icon) to see and acknowledge active alerts
-4. Check the [API docs](YOUR_RENDER_URL_HERE/docs) to explore every endpoint
+4. Check the [API docs](https://fleetmind-api.onrender.com/docs) to explore every endpoint
 
 ---
 
@@ -266,4 +266,4 @@ Supabase provides hosted PostgreSQL + Row Level Security + Auth + realtime subsc
 ## Author
 
 **Vedant Bhakare**
-Second-year CSE (AI) student at VIT Pune
+Third-year CSE (AI) student at VIT Pune
