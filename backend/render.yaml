@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: fleetmind-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      - key: DEBUG
+        value: false
+      - key: VERSION
+        value: 1.0.0
+      - key: APP_NAME
+        value: FleetMind API
+      - key: PREDICTION_THRESHOLD
+        value: 0.50
+      - key: CRITICAL_THRESHOLD
+        value: 0.90
+      - key: HIGH_THRESHOLD
+        value: 0.75
+      - key: MEDIUM_THRESHOLD
+        value: 0.50
+      - key: HEALTH_CRITICAL_THRESHOLD
+        value: 20.0
+      - key: HEALTH_HIGH_THRESHOLD
+        value: 40.0
+      - key: HEALTH_MEDIUM_THRESHOLD
+        value: 60.0
+      - key: HEALTH_LOW_THRESHOLD
+        value: 75.0
